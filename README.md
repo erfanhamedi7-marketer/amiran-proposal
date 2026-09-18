@@ -69,6 +69,18 @@
 
 ---
 
+## دیپلوی روی Vercel
+
+مخزن آماده دیپلوی است — سایت کاملاً استاتیک است و هیچ build stepی ندارد.
+فایل `vercel.json` شامل تنظیمات cache برای فونت و دارایی‌ها است.
+
+۱. وارد [vercel.com/new](https://vercel.com/new) شوید
+۲. مخزن `amiran-proposal` را import کنید
+۳. تنظیمات را دست نزنید (Framework Preset: **Other**، Build Command: خالی، Output Directory: خالی)
+۴. Deploy
+
+هر push به برنچ production یک دیپلوی جدید و هر برنچ دیگر یک **Preview URL** می‌سازد.
+
 ## ساختار فایل‌ها
 
 ```
@@ -78,7 +90,8 @@ assets/
   css/deck.css                دیزاین سیستم و استایل همه اسلایدها
   js/deck.js                  ناوبری، مقیاس‌بندی استیج، نمای کلی
   fonts/                      Vazirmatn (woff2)
-  img/                        لوگو در سه رنگ (لیمویی / مشکی / سفید)
+  img/                        لوگو در سه رنگ + تصویر پیش‌نمایش شبکه‌های اجتماعی
+vercel.json                   تنظیمات دیپلوی Vercel
 amiran-logo.png               لوگوی اصلی آپلودشده
 ```
 
