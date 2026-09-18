@@ -22,9 +22,21 @@
   }
   function pad(n) { return n < 10 ? '0' + n : String(n); }
 
-  /* ---------- Stage scaling (keeps slides pixel-perfect) ---------- */
+  /* ---------- Stage scaling (keeps slides pixel-perfect) ----------
+     On portrait phones the CSS switches to a fluid layout instead,
+     so the transform must be cleared there. */
   var BASE_W = 1280, BASE_H = 720;
+  var mobileQuery = window.matchMedia('(max-width: 820px) and (orientation: portrait)');
+
+  function isMobile() { return mobileQuery.matches; }
+
   function fit() {
+    if (isMobile()) {
+      deck.style.transform = '';
+      document.body.classList.add('is-mobile');
+      return;
+    }
+    document.body.classList.remove('is-mobile');
     var vw = window.innerWidth;
     var vh = window.innerHeight;
     var scale = Math.min(vw / BASE_W, vh / BASE_H);
@@ -34,6 +46,11 @@
   }
   window.addEventListener('resize', fit);
   window.addEventListener('orientationchange', fit);
+  if (mobileQuery.addEventListener) {
+    mobileQuery.addEventListener('change', fit);
+  } else if (mobileQuery.addListener) {
+    mobileQuery.addListener(fit);
+  }
   fit();
 
   /* ---------- Render footer slide numbers ---------- */
@@ -65,7 +82,7 @@
     });
 
     target.classList.add('is-active');
-    if (current !== target) { /* noop, kept for clarity */ }
+    if (current !== target) target.scrollTop = 0;
 
     bar.style.width = (total > 1 ? (index / (total - 1)) * 100 : 100) + '%';
     counter.textContent = fa(pad(index + 1)) + ' / ' + fa(total);
